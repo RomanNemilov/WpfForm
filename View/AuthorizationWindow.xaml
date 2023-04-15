@@ -1,0 +1,84 @@
+﻿<Window x:Class="WpfForm.AuthorizationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfForm"
+        mc:Ignorable="d"
+        Title="Создание заказа" Height="450" Width="450" WindowStartupLocation="CenterScreen">
+    <Grid Background="#FF412673">
+        <!--Главная разметка окна-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#FF5B379E">
+            <!--Макет заголовка окна-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="170"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Source="/Resources/anonymous_logo.png" Grid.Column="0"
+                   Margin="5"></Image>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" 
+                       Text="Авторизация" VerticalAlignment="Center" FontSize="24" Foreground="White"/>
+            <Button Grid.Column="2" HorizontalAlignment="Right" Margin="5,5,5,5" VerticalAlignment="Center" Background="#19000000" Click="MainMenu_Click">
+                <Button.Content>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <Image Source="/Resources/exit_logo.png" Height="20" Width="20"/>
+                        <TextBlock TextWrapping="Wrap" Text="Главное меню" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="White" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+
+        </Grid>
+        <Grid Grid.Row="2" Background="#FF5B379E">
+            <!--Макет нижней строки окна-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" HorizontalAlignment="Center" 
+                       TextWrapping="Wrap" Text="Роман Немилов©" 
+                       VerticalAlignment="Center" FontSize="16" 
+                       Foreground="White" Margin="0,0,0,0"/>
+            <TextBlock HorizontalAlignment="Center" 
+                TextWrapping="Wrap" Text="nemilov220@gmail.com" 
+                VerticalAlignment="Center" FontSize="16" 
+                Foreground="White" Grid.Column="1"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right"
+                        Margin ="0, 0, 90, 0">
+                <TextBlock Margin="5" TextWrapping="Wrap" VerticalAlignment="Center"
+                            Foreground="White" FontSize="24"
+                            Text="Логин:"/>
+                <TextBox Name="LoginTextBox"
+                    HorizontalAlignment="Center" Margin="0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" FontSize="24"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"
+                        Margin ="0, 0, 90, 0">
+                <TextBlock Margin="5" TextWrapping="Wrap" VerticalAlignment="Center"
+                           Foreground="White"
+                           Text="Пароль:" FontSize="24" />
+                <PasswordBox Name="PasswordBox"
+                    Width="180"  FontSize="24" Height="33"/>
+            </StackPanel>
+            <Button Grid.Row="3"  Content="Войти" 
+                    Click="Login"
+                    HorizontalAlignment="Center" Margin="10"
+                    Width="150"
+                    Foreground ="White" Background="#19000000" FontSize="24"/>
+        </Grid>
+    </Grid>
+</Window>

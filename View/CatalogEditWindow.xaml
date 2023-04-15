@@ -1,0 +1,113 @@
+﻿<Window x:Class="WpfForm.CatalogEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfForm"
+        mc:Ignorable="d"
+        Title="Редактирование каталога" Height="650" Width="1000">
+    <Grid Background="#FF412673">
+        <!--Главная разметка окна-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#FF5B379E">
+            <!--Макет заголовка окна-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"></ColumnDefinition>
+                <ColumnDefinition Width="75*"></ColumnDefinition>
+                <ColumnDefinition Width="17*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Source="/Resources\anonymous_logo.png" Grid.Column="0"
+                   Margin="5,5,5,5"></Image>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" 
+                       Text="Редактирование каталога" VerticalAlignment="Center" FontSize="24" Foreground="White" Height="32" Width="282"/>
+            <Button Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#19000000" Click="MainMenu_Click" Height="28" Width="144">
+                <Button.Content>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <Image Source="/Resources/exit_logo.png" Height="20" Width="20"/>
+                        <TextBlock TextWrapping="Wrap" Text="Главное меню" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="White" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+
+        </Grid>
+        <Grid Grid.Row="2" Background="#FF5B379E">
+            <!--Макет нижней строки окна-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" HorizontalAlignment="Center" 
+                       TextWrapping="Wrap" Text="Роман Немилов©" 
+                       VerticalAlignment="Center" FontSize="16" 
+                       Foreground="White" Margin="0,0,0,0"/>
+            <TextBlock HorizontalAlignment="Center" 
+                TextWrapping="Wrap" Text="nemilov220@gmail.com" 
+                VerticalAlignment="Center" FontSize="16" 
+                Foreground="White" Grid.Column="1"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="267*"/>
+                <ColumnDefinition Width="236*"/>
+                <ColumnDefinition Width="497*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <ListBox Grid.Row="0" 
+                    x:Name="listBoxCategory" Background="#FF412673"
+                    SelectionChanged="ListBoxCategory_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding}" Style="{StaticResource DefaultText}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="ButtonDeleteCategory" Content="-" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="29" Width="82" Click="ButtonDeleteCategory_Click"/>
+                    <Button x:Name="ButtonAddCategory" Grid.Column="1" Content="+" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="29" Width="82" Click="ButtonAddCategory_Click"/>
+                </Grid>
+                <TextBox x:Name="TextBoxCategory" HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="246" Height="20"/>
+
+            </Grid>
+            <Image x:Name="ImageProduct" Grid.Column="2" HorizontalAlignment="Left" Height="228" Margin="258,10,0,0" VerticalAlignment="Top" Width="228"/>
+            <TextBox x:Name="TextBoxProductName" Grid.Column="2" HorizontalAlignment="Left" Margin="36,34,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="TextBoxProductCost" Grid.Column="2" HorizontalAlignment="Left" Margin="36,102,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <ListBox Grid.Column="1" 
+                x:Name="ListBoxProducts" Background="#FF412673"
+                SelectionChanged="ListBoxProducts_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Path=Name}" Style="{StaticResource DefaultText}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="ButtonDeleteProduct" Content="-" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="29" Width="82" Click="ButtonDeleteProduct_Click"/>
+                    <Button x:Name="ButtonAddProduct" Grid.Column="1" Content="+" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="29" Width="82" Click="ButtonAddProduct_Click"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
