@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
-//using Microsoft.Office.Interop.Word;
 
 namespace WpfForm
 {
@@ -27,8 +26,10 @@ namespace WpfForm
         {
             Products.Clear();
             Excel.Worksheet worksheet = Workbook.Worksheets[categoryName];
+            if (worksheet.Cells[1, 1].Value == null || worksheet.Cells[1, 2].Value == null) return;
             Excel.Range range = worksheet.UsedRange;
             int rowCount = range.Rows.Count;
+            //MessageBox.Show(rowCount.ToString());
             for (int i = 1; i <= rowCount; i++)
             {
                 Product product = new Product();

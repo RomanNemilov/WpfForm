@@ -63,7 +63,7 @@
                 <TextBlock Margin="5" TextWrapping="Wrap" VerticalAlignment="Center"
                             Foreground="White" FontSize="24"
                             Text="Логин:"/>
-                <TextBox Name="LoginTextBox"
+                <TextBox Name="LoginTextBox" Text="romkapro"
                     HorizontalAlignment="Center" Margin="0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" FontSize="24"/>
             </StackPanel>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"
@@ -71,7 +71,7 @@
                 <TextBlock Margin="5" TextWrapping="Wrap" VerticalAlignment="Center"
                            Foreground="White"
                            Text="Пароль:" FontSize="24" />
-                <PasswordBox Name="PasswordBox"
+                <PasswordBox Name="PasswordBox" Password="admin"
                     Width="180"  FontSize="24" Height="33"/>
             </StackPanel>
             <Button Grid.Row="3"  Content="Войти" 
