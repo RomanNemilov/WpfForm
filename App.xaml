@@ -6,8 +6,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Shapes/Colors.xaml"/>
                 <ResourceDictionary Source="Shapes/DefaultTextStyle.xaml"/>
                 <ResourceDictionary Source="Shapes/DefaultButtonStyle.xaml"/>
+                <ResourceDictionary Source="Shapes/DefaultTextBoxStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
