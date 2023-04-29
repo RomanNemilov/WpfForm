@@ -230,7 +230,7 @@ namespace WpfForm
                 MessageBox.Show(fileName);
                 File.Copy(fileName, Environment.CurrentDirectory + @"\photos\" + product.Name + ".png", true);
                 UpdateProduct(product);
-                GC.Collect();                                    //dfgdf
+                //GC.Collect();                                    //dfgdf
             }
             
         }
@@ -240,7 +240,7 @@ namespace WpfForm
             TextBoxProductName.Text = product.Name;
             TextBoxProductCost.Text = product.Cost.ToString();
             BitmapImage source = new BitmapImage();
-            GC.Collect();
+            //GC.Collect();
             source.BeginInit();
             source.UriSource = new Uri(product.Photo, UriKind.Absolute);
             source.CacheOption = BitmapCacheOption.OnLoad;
