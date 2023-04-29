@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -23,6 +25,8 @@ namespace WpfForm
     /// </summary>
     public partial class CatalogEditWindow : Window
     {
+        private bool addingCategory = false;
+        private bool addingProduct = false;
         public CatalogEditWindow()
         {
             InitializeComponent();
@@ -31,24 +35,43 @@ namespace WpfForm
         }
         private void ListBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             //MessageBox.Show(listBoxCategory.SelectedIndex.ToString());
             if(listBoxCategory.SelectedIndex != -1)
             {
                 App.UpdateProducts((string)listBoxCategory.SelectedValue);
                 ListBoxProducts.ItemsSource = null;
+                ListBoxProducts.Items.Clear();                                //????????
                 ListBoxProducts.ItemsSource = App.Products;
+                if (addingCategory)
+                {
+                    return;
+                }
                 TextBoxCategory.Text = (string)listBoxCategory.SelectedValue;
+                ButtonEditCategory.IsEnabled = true;
+                ButtonDeleteCategory.IsEnabled = true;
+            }
+            else
+            {
+                ButtonEditCategory.IsEnabled = false;
+                ButtonDeleteCategory.IsEnabled = false;
             }
         }
-        private void ListBoxProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListBoxProducts_SelectionChanged(object sender, SelectionChangedEventArgs e) 
         {
             Product product = (Product)ListBoxProducts.SelectedValue;
             if(product != null)
             {
-                TextBoxProductName.Text = product.Name;
-                TextBoxProductCost.Text = product.Cost.ToString();
-                Uri uri = new Uri(product.Photo, UriKind.Absolute);
-                ImageProduct.Source = new BitmapImage(uri);
+                UpdateProduct(product);
+                ButtonUploadImage.IsEnabled = true;
+                ButtonEditProduct.IsEnabled = true;
+                ButtonDeleteProduct.IsEnabled = true;
+            }
+            else
+            {
+                ButtonUploadImage.IsEnabled = false;
+                ButtonEditProduct.IsEnabled = false;
+                ButtonDeleteProduct.IsEnabled = false;
             }
         }
         private void MainMenu_Click(object sender, RoutedEventArgs e)
@@ -74,21 +97,12 @@ namespace WpfForm
 
         private void ButtonAddCategory_Click(object sender, RoutedEventArgs e)
         {
+            addingCategory = true;
             //App.Workbook.Sheets[App.Workbook.Sheets.Count].Select();
-            Excel.Worksheet sheet;
-            if (listBoxCategory.SelectedIndex != -1)
-            {
-                Excel.Worksheet selectedSheet = App.Workbook.Sheets[listBoxCategory.SelectedValue];
-                sheet = App.Workbook.Worksheets.Add(After: selectedSheet);
-            }
-            else
-            {
-                Excel.Worksheet lastSheet = App.Workbook.Sheets[App.Workbook.Sheets.Count];
-                sheet = App.Workbook.Worksheets.Add(After: lastSheet);
-            }
-            sheet.Name = TextBoxCategory.Text;
-            UpdateListCategory();
-            App.Workbook.Save();
+            TextBoxCategory.Text = "";
+            ButtonEditCategory.IsEnabled = true;
+            ButtonDeleteCategory.IsEnabled = false;
+            ButtonAddCategory.IsEnabled = false;
         }
         private void UpdateListCategory()
         {
@@ -130,24 +144,42 @@ namespace WpfForm
 
         private void ButtonAddProduct_Click(object sender, RoutedEventArgs e)
         {
-            Excel.Worksheet sheet = App.Workbook.Worksheets[listBoxCategory.SelectedValue];
-            Excel.Range range = sheet.UsedRange;
-            int rowCount = range.Rows.Count;
-            if (sheet.Cells[1, 1].Value == null || sheet.Cells[1, 2].Value == null) rowCount = 0; //Без этого не работает
-            sheet.Cells[rowCount + 1, 1].Value = TextBoxProductName.Text;
-            sheet.Cells[rowCount + 1, 2].Value = Convert.ToDouble(TextBoxProductCost.Text);
-            App.UpdateProducts((string)listBoxCategory.SelectedValue);
-            ListBoxProducts.ItemsSource = null;
-            ListBoxProducts.ItemsSource = App.Products;
-            App.Workbook.Save();
+            addingProduct = true;
+            ButtonUploadImage.IsEnabled = false;
+            TextBoxProductCost.Text = string.Empty;
+            TextBoxProductName.Text = string.Empty;
+            ButtonDeleteProduct.IsEnabled = false;
+            ButtonAddProduct.IsEnabled = false;
+            ButtonEditProduct.IsEnabled = true;
         }
 
         private void ButtonEditCategory_Click(object sender, RoutedEventArgs e)
         {
+            if (addingCategory)
+            {
+                Excel.Worksheet sheet;
+                if (listBoxCategory.SelectedIndex != -1)
+                {
+                    Excel.Worksheet selectedSheet = App.Workbook.Sheets[listBoxCategory.SelectedValue];
+                    sheet = App.Workbook.Worksheets.Add(After: selectedSheet);
+                }
+                else
+                {
+                    Excel.Worksheet lastSheet = App.Workbook.Sheets[App.Workbook.Sheets.Count];
+                    sheet = App.Workbook.Worksheets.Add(After: lastSheet);
+                }
+                sheet.Name = TextBoxCategory.Text;
+                App.Workbook.Save();
+                addingCategory = false;
+                ButtonDeleteCategory.IsEnabled = true;
+                ButtonAddCategory.IsEnabled = true;
+            }
+            else
+            {
             Excel.Worksheet sheet = App.Workbook.Worksheets[listBoxCategory.SelectedValue];
             sheet.Name = TextBoxCategory.Text;
+            }
             UpdateListCategory();
-            //App.Workbook.Save();
         }
 
         private void ButtonEditProduct_Click(object sender, RoutedEventArgs e)
@@ -155,14 +187,27 @@ namespace WpfForm
             Excel.Worksheet sheet = App.Workbook.Worksheets[listBoxCategory.SelectedValue];
             Excel.Range range = sheet.UsedRange;
             int rowCount = range.Rows.Count;
-            for (int i = 1; i <= rowCount; i++)
+            if (addingProduct)
             {
-                MessageBox.Show(((Product)ListBoxProducts.SelectedItem).Name, sheet.Cells[i, 1].Value);
-                if (sheet.Cells[i, 1].Value == ((Product)ListBoxProducts.SelectedItem).Name &&
-                    sheet.Cells[i, 2].Value == ((Product)ListBoxProducts.SelectedItem).Cost)
+                if (sheet.Cells[1, 1].Value == null || sheet.Cells[1, 2].Value == null) rowCount = 0; //Без этого не работает
+                sheet.Cells[rowCount + 1, 1].Value = TextBoxProductName.Text;
+                sheet.Cells[rowCount + 1, 2].Value = Convert.ToDouble(TextBoxProductCost.Text);
+                App.UpdateProducts((string)listBoxCategory.SelectedValue);
+                ListBoxProducts.ItemsSource = null;
+                ListBoxProducts.ItemsSource = App.Products;
+                App.Workbook.Save();
+            }
+            else
+            {
+                for (int i = 1; i <= rowCount; i++)
                 {
-                    sheet.Cells[i, 1].Value = TextBoxProductName.Text;
-                    sheet.Cells[i, 2].Value = Convert.ToDouble(TextBoxProductCost.Text);
+                    MessageBox.Show(((Product)ListBoxProducts.SelectedItem).Name, sheet.Cells[i, 1].Value);
+                    if (sheet.Cells[i, 1].Value == ((Product)ListBoxProducts.SelectedItem).Name &&
+                        sheet.Cells[i, 2].Value == ((Product)ListBoxProducts.SelectedItem).Cost)
+                    {
+                        sheet.Cells[i, 1].Value = TextBoxProductName.Text;
+                        sheet.Cells[i, 2].Value = Convert.ToDouble(TextBoxProductCost.Text);
+                    }
                 }
             }
             // range.Rows[ListBoxProducts.SelectedValue].Cells.Clear(); //Не работает(
@@ -170,6 +215,37 @@ namespace WpfForm
             ListBoxProducts.ItemsSource = null;
             ListBoxProducts.ItemsSource = App.Products;
             App.Workbook.Save();
+        }
+
+        private void ButtonUploadImage_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog imageDialog = new OpenFileDialog();
+            imageDialog.Filter = "Изображения (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
+            if (imageDialog.ShowDialog() == true)
+            {
+                Product product = ListBoxProducts.SelectedItem as Product;
+                string fileName = imageDialog.FileName;
+                //string[] temp = fileName.Split('.');                          //крутая штука, но я забыл что система картинок принимает только png
+                //string extention = "." + temp[temp.Length - 1];
+                MessageBox.Show(fileName);
+                File.Copy(fileName, Environment.CurrentDirectory + @"\photos\" + product.Name + ".png", true);
+                UpdateProduct(product);
+                GC.Collect();                                    //dfgdf
+            }
+            
+        }
+        private void UpdateProduct(Product product)
+        {
+            ImageProduct.Source = null;
+            TextBoxProductName.Text = product.Name;
+            TextBoxProductCost.Text = product.Cost.ToString();
+            BitmapImage source = new BitmapImage();
+            GC.Collect();
+            source.BeginInit();
+            source.UriSource = new Uri(product.Photo, UriKind.Absolute);
+            source.CacheOption = BitmapCacheOption.OnLoad;
+            source.EndInit();
+            ImageProduct.Source = source;
         }
     }
 }

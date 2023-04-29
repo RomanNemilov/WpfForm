@@ -30,7 +30,7 @@ namespace WpfForm
             try
             {
                 App.ExcelApp = new Excel.Application();
-                App.ExcelApp.Visible = true;
+                //App.ExcelApp.Visible = true;
                 //if (File.Exists(App.file))
             }
             catch

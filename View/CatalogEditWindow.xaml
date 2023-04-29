@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfForm"
         mc:Ignorable="d"
-        Title="Редактирование каталога" Height="650" Width="1000">
+        Title="Редактирование каталога" Height="650" Width="901">
     <Grid Background="#FF412673">
         <!--Главная разметка окна-->
         <Grid.RowDefinitions>
@@ -52,9 +52,9 @@
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="267*"/>
-                <ColumnDefinition Width="267*"/>
-                <ColumnDefinition Width="466*"/>
+                <ColumnDefinition Width="260"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
             <Grid>
                 <Grid.RowDefinitions>
@@ -73,24 +73,20 @@
                 </ListBox>
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="ButtonDeleteCategory" Content="-" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="29" Width="82" Click="ButtonDeleteCategory_Click"/>
-                    <Button x:Name="ButtonEditCategory" Grid.Column="1" Content="Изменить" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="29" Width="82" Click="ButtonEditCategory_Click"/>
-                    <Button x:Name="ButtonAddCategory" Grid.Column="2" Content="+" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="28" Width="82" Click="ButtonAddCategory_Click"/>
+                    <Button x:Name="ButtonDeleteCategory" Content="-" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="5" Click="ButtonDeleteCategory_Click" IsEnabled="False"/>
+                    <Button x:Name="ButtonEditCategory" Grid.Column="1" Content="Сохранить" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="5" Click="ButtonEditCategory_Click" IsEnabled="False"/>
+                    <Button x:Name="ButtonAddCategory" Grid.Column="2" Content="+" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="5" Click="ButtonAddCategory_Click"/>
                 </Grid>
                 <TextBox x:Name="TextBoxCategory" HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="246" Height="20"/>
 
             </Grid>
-            <Image x:Name="ImageProduct" Grid.Column="2" HorizontalAlignment="Left" Height="228" Margin="258,10,0,0" VerticalAlignment="Top" Width="228"/>
-            <TextBox x:Name="TextBoxProductName" Grid.Column="2" HorizontalAlignment="Left" Margin="36,34,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Height="18"/>
-            <TextBox x:Name="TextBoxProductCost" Grid.Column="2" HorizontalAlignment="Left" Margin="36,102,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Height="18"/>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <ListBox Grid.Column="1" 
                 x:Name="ListBoxProducts" Background="#FF412673"
@@ -100,17 +96,29 @@
                             <TextBlock TextWrapping="Wrap" Text="{Binding Path=Name}" Style="{StaticResource DefaultText}"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <DataGrid Height="100" Width="100" d:ItemsSource="{d:SampleData ItemCount=5}"/>
                 </ListBox>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Image x:Name="ImageProduct" HorizontalAlignment="Center" Height="230" Margin="0,10,0,0" VerticalAlignment="Top" Width="230"/>
+                <TextBox x:Name="TextBoxProductName" HorizontalAlignment="Left" Margin="10,305,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Height="18"/>
+                <TextBox x:Name="TextBoxProductCost" HorizontalAlignment="Left" Margin="10,339,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Height="18"/>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="ButtonDeleteProduct" Content="-" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="29" Width="82" Click="ButtonDeleteProduct_Click"/>
-                    <Button x:Name="ButtonEditProduct" Grid.Column="1" Content="Изменить" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="29" Width="82" Click="ButtonEditProduct_Click"/>
-                    <Button x:Name="ButtonAddProduct" Grid.Column="2" Content="+" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="28" Width="82" Click="ButtonAddProduct_Click"/>
+                    <Button x:Name="ButtonDeleteProduct" Content="-" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="5" Click="ButtonDeleteProduct_Click" IsEnabled="False"/>
+                    <Button x:Name="ButtonEditProduct" Grid.Column="1" Content="Сохранить" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="5" Click="ButtonEditProduct_Click" IsEnabled="False"/>
+                    <Button x:Name="ButtonAddProduct" Grid.Column="2" Content="+" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="5" Click="ButtonAddProduct_Click"/>
                 </Grid>
+                <Button Name="ButtonUploadImage" Content="Загрузить изображение" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Click="ButtonUploadImage_Click" IsEnabled="False"/>
+
             </Grid>
         </Grid>
     </Grid>
